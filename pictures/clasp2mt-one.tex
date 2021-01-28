@@ -1,0 +1,195 @@
+\newcommand{\rec}[4]{
+  \node[#1,draw=none] #2 (#3tmp) { #4 };
+  \draw[#1,fill=bg]
+    ($(#3tmp.north west) + (5pt,0)$) --
+    ($(#3tmp.north east) + (-5pt,0)$) --
+    ($(#3tmp.north east) + (0,-5pt)$) --
+    ($(#3tmp.south east) + (0,5pt)$) --
+    ($(#3tmp.south east) + (-5pt,0)$) --
+    ($(#3tmp.south west) + (5pt,0)$) --
+    ($(#3tmp.south west) + (0,5pt)$) --
+    ($(#3tmp.north west) + (0,-5pt)$) --
+    cycle
+    ;
+  \node[#1,draw=none] #2 (#3) { #4 };
+}
+\newcommand{\funnywave}[2]
+{
+    \draw[#1]
+      ($(#2.south west)+(0,-5pt)$) -- (#2.north west) -- (#2.north east) -- (#2.south east)
+      ($(#2.south west)+(0,-5pt)$) edge [bend right=25] ($(#2.south)+(0,-5pt)$)
+      ($(#2.south)+(0,-5pt)$) edge [bend left=15] (#2.south east)
+    ;
+}
+%\IfFileExists{figures/pgf-new.txt}{
+\newcommand{\MYTRSTYLE}{false}
+% }{
+% \newcommand{\MYTRSTYLE}{true}
+% }
+  % Note: for slides
+  \colorlet{alertt}{yellow}%{red}
+  \colorlet{bg}{background canvas.bg}
+%  \colorlet{bg}{white}
+  \begin{center}
+    \begin{tikzpicture}[
+        >=stealth',
+        scale=0.77,
+        transform shape,
+        parlabel/.style={draw,minimum width=1.5cm,minimum height=0.5cm,inner sep=0},
+        pp/.style={draw},
+        pc/.style={draw},
+        sc/.style={draw},
+        co/.style={draw},
+        so/.style={draw},
+        prop/.style={draw},
+        enum/.style={draw},
+        parallel/.style={draw},
+        pcontext/.style={draw},
+%        no_transform/.style={transform shape=false}
+        no_transform/.style={transform shape=\MYTRSTYLE}
+      ]
+
+        \begin{scope}[so]
+          % Solver
+          \node[draw,no_transform, fill=bg,rounded corners,inner sep=0,fit={(0.12,0.12)(11.12,4.12)}] (solver stacked) {};
+          \node[draw,no_transform,fill=bg,rounded corners,inner sep=0,fit={(0.06,0.06)(11.06,4.06)}] {};
+          \node[draw,no_transform, fill=bg,rounded corners,inner sep=0,fit={(0,0)(11,4)}] (solver) {};
+          \node[anchor=north west] at (solver.north west) {Solver 1\dots{}n};
+          \rec{minimum height=1cm}{at (1.2,2.1)}{heuristic}{\shortstack{Decision\\Heuristic}}
+          \rec{minimum height=1cm}{at (3.5,3.2)}{resolution}{\shortstack{Conflict\\Resolution}}
+          \node[draw] at (3.5,1) (assignment){\shortstack{Assignment\\Atoms/Bodies}};
+          \node[draw] at (7,3.2) (recorded nogoods){Recorded Nogoods};
+          \begin{scope}[prop]
+          \node[draw,no_transform, rounded corners,inner sep=0,fit={(5.5,0.3)(10.7,2.3)}] (propagation) {};
+          \node[anchor=north west] at (propagation.north west) {Propagation};
+          \rec{minimum height=1cm}{at (6.7,1.15)}{unit propagation}{\shortstack{Unit\\Propagation}}
+          \begin{scope}[pc]\rec{minimum height=1cm}{at (9.5,1.21)}{post propagation stacked}{\shortstack{Post\\Propagation}}\end{scope}
+          \rec{minimum height=1cm}{at (9.44,1.15)}{post propagation}{\shortstack{Post\\Propagation}}
+          \end{scope}
+          \draw [<-] (heuristic.north) |- (resolution.west);
+          \draw [->] (heuristic.south) |- (assignment.west);
+          \draw
+        %(heuristic.north) edge [<-] (resolution.west)
+        %(heuristic.south) edge [->] (assignment.west)
+        (assignment) edge [->] (resolution)
+        (resolution) edge [<->] (recorded nogoods)
+        (recorded nogoods) edge [<->] (recorded nogoods |- propagation.north)
+        (assignment) edge [<->] (propagation.west |- assignment)
+        (unit propagation) edge [<->] (post propagation)
+        ;
+        \end{scope}
+        \begin{scope}[co]
+          % Coordination
+          \coordinate (co) at (0,4.65);
+          %\uncover<0>{
+          \node[draw,rounded corners,no_transform, fit={(co)($(co)+(11.12,4.75)$)},inner sep=0] (coordination) {};
+          \node[anchor=north west] at (coordination.north west) {Coordination};
+          %}
+          % Shared context
+          \begin{scope}[sc]
+            \coordinate (sc) at ($(co)+(0.2,0.2)$);
+            \node[draw,no_transform, fill=bg,fit={(sc)($(sc)+(4,4)$)},inner sep=0] (shared context) {};
+            \node[anchor=north west] at (shared context.north west) {SharedContext};
+            \node[draw] at ($(sc)+(2,3)$) (vars) {\shortstack{Propositional\\Variables}};
+            \node[draw] at ($(sc)+(1,1.9)$) (atoms) {Atoms};
+            \node[draw] at ($(sc)+(3,1.9)$) (bodies) {Bodies};
+
+            \node[draw] at ($(sc)+(2,1.2)$) {Static Nogoods};
+            \node[draw] at ($(sc)+(2,0.5)$) (graph) {Short Nogoods};
+            \draw
+              (vars) edge[->] (atoms) edge[->] (bodies)
+              (atoms) edge[<->] (bodies)
+              ;
+          \end{scope}
+          % Parallel solve
+          \begin{scope}[parallel]
+            \coordinate (ps) at ($(co)+(6.92,0.2)$);
+            \begin{scope}[pcontext]
+            \node[draw,no_transform, fill=bg,fit={(ps)($(ps)+(4,4)$)},inner sep=0] (parsolve) {};
+            \node[anchor=north west] at (parsolve.north west) {ParallelContext};
+
+            \node[parlabel] at ($(ps)+(0.95,3.2)$) (threads) {Threads};
+            \draw ($(threads.south east) + (0.1,0)$) rectangle +(0.5,0.5) rectangle +(1,0) rectangle +(1.5,0.5) rectangle +(2,0);
+            \node at ($(threads.south east) + (0.35,0.25)$) {S$_1$};
+            \node at ($(threads.south east) + (0.85,0.25)$) {S$_2$};
+            \node at ($(threads.south east) + (1.4,0.25)$) {\dots};
+            \node at ($(threads.south east) + (1.85,0.25)$) {S$_n$};
+
+            \node[parlabel] at ($(ps)+(0.95,2.5)$) (counter) {Counter};
+            \draw ($(counter.south east) + (0.1,0)$) rectangle +(0.5,0.5) rectangle +(1,0) rectangle +(1.5,0.5) rectangle +(2,0);
+            \node at ($(counter.south east) + (0.35,0.25)$) {T};
+            \node at ($(counter.south east) + (0.85,0.25)$) {W};
+            \node at ($(counter.south east) + (1.4,0.25)$) {\dots};
+            \node at ($(counter.south east) + (1.85,0.25)$) {S};
+
+            \node[parlabel] at ($(ps)+(0.95,1.8)$) (queue) {Queue};
+            \draw ($(queue.south east) + (0.1,0)$) rectangle +(0.5,0.5) rectangle +(1,0) rectangle +(1.5,0.5) rectangle +(2,0);
+            \node at ($(queue.south east) + (0.35,0.25)$) {P$_1$};
+            \node at ($(queue.south east) + (0.85,0.25)$) {P$_2$};
+            \node at ($(queue.south east) + (1.4,0.25)$) {\dots};
+            \node at ($(queue.south east) + (1.85,0.25)$) {P$_n$};
+
+            \node [draw,no_transform, fit={($(ps)+(0.6,0.3)$)($(ps)+(3.4,1.2)$)}] (shared nogoods) {};
+            \node at ($(ps)+(2,1)$) {Shared Nogoods};
+            % tikz also has a for loop and a draw grid :)
+            \draw
+              ($(ps)+(0.8,0.3)$)
+                rectangle +(0.2,0.2) rectangle +(0.4,0.0) rectangle +(0.6,0.2) rectangle +(0.8,0.0)
+                rectangle +(1.0,0.2) rectangle +(1.2,0.0) rectangle +(1.4,0.2) rectangle +(1.6,0.0)
+                rectangle +(1.8,0.2) rectangle +(2.0,0.0) rectangle +(2.2,0.2) rectangle +(2.4,0.0)
+                rectangle +(2.2,0.4) rectangle +(2.0,0.2) rectangle +(1.8,0.4) rectangle +(1.6,0.2)
+                rectangle +(1.4,0.4) rectangle +(1.2,0.2) rectangle +(1.0,0.4) rectangle +(0.8,0.2)
+                rectangle +(0.6,0.4) rectangle +(0.4,0.2) rectangle +(0.2,0.4) rectangle +(0.0,0.2)
+              ;
+            \end{scope}
+            \end{scope}
+          % In-between
+          \begin{scope}[enum]\rec{minimum height=1cm}{at ($(coordination |- threads)$)}{enum}{Enumerator}\end{scope}
+          \begin{scope}[parallel]
+            \rec{minimum height=1cm}{at ($(coordination |- graph)$)}{distributor}{\shortstack{Nogood\\Distributor}}
+            \draw
+              (enum) edge[<->] (threads)
+              (distributor.east) edge[->] (shared nogoods.west |- graph)
+              (distributor) edge[->] (graph)
+              ($(distributor.south)+(0.4,0)$) edge[<-] ($(distributor |- recorded nogoods.north)+(0.4,0)$)
+              ;
+          \end{scope}
+        \end{scope} % co
+        \draw
+          (post propagation stacked) edge [parallel, <->] (post propagation stacked |- parsolve.south)
+          (shared context.south) edge[->] (shared context |- solver stacked.north)
+          ;
+        \begin{scope}[pp]
+          % Logic program
+          \coordinate (in) at ($(-2.05,3.5)$);
+          \node[pp,draw=none,minimum height=1.3cm] at (in) (lp) { \shortstack{Logic\\Program} }; \funnywave{pp}{lp}
+
+          % Preprocessing
+          \coordinate (pp) at ($(-4.7,7.7)$);
+          \node[draw,rounded corners,no_transform, fill=bg,fit={($(pp)+(1.25,-2.5)$)($(pp)+(4.1,1)$)},inner sep=0] (preprocessing) {};
+          \node[anchor=north west] at (preprocessing.north west) {Preprocessing};
+%          \rec{draw,minimum height=1cm}{at ($(pp)+(2.65,-0.15)$)}{prg builder}{\shortstack{Program\\Builder}}
+%          \rec{draw,minimum height=1cm}{at ($(pp)+(2.71,-1.74)$)}{preprocessor stacked}{Preprocessor}
+%          \rec{draw,minimum height=1cm}{at ($(pp)+(2.65,-1.8)$)}{preprocessor}{Preprocessor}
+          \rec{draw,minimum height=1cm}{at ($(pp)+(2.65,-1.8)$)}{prg builder}{\shortstack{Program\\Builder}}
+          \rec{draw,minimum height=1cm}{at ($(pp)+(2.71,-0.15)$)}{preprocessor stacked}{Preprocessor}
+          \rec{draw,minimum height=1cm}{at ($(pp)+(2.65,-0.21)$)}{preprocessor}{Preprocessor}
+
+          \draw
+            (lp) edge[->] (lp |- preprocessing.south)
+%            (prg builder) edge[<->] (preprocessor stacked)
+            (prg builder) edge[<->] (preprocessor)
+            ;
+        \end{scope}
+        \draw
+          (preprocessing) edge[->] (shared context.west |- preprocessing)
+          ;
+%       \draw[help lines] (0,0) grid (11,12);
+
+    \end{tikzpicture}
+  \end{center}
+%
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../../main"
+%%% End:
