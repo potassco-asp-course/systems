@@ -1,0 +1,33 @@
+* core systems
+** clingo
+** gringo
+** clasp
+** APIs
+   - rust
+   - java
+* extended systems
+** clingcon
+** clingo-dl
+** clingo-lp
+** clingo-lpx
+** fclingo
+** eclingo
+* tooling
+** asprin
+** clingraph
+** clinguin
+** clintest
+** ngo
+** clingo-server
+** clorm
+** python-clingox
+** acclingo
+** anthem
+* applications
+  - aspcud
+  - aspartame
+  - teaspoon
+  - asprilo
+  - plasp
+  - flatzingo
+  - qasp2qbf
