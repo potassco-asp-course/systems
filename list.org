@@ -31,3 +31,4 @@
   - plasp
   - flatzingo
   - qasp2qbf
+  - chasp
