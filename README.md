@@ -23,6 +23,7 @@
 ### fclingo
 ### plingo
 ### telingo
+### memelingo
 
 ## Dedicated systems
 
@@ -37,6 +38,7 @@
 ### ngo
 ### python-clingox
 ### tree-sitter-clingo
+### clingoexplaid
 
 ## Application-oriented systems
 
@@ -67,3 +69,4 @@
 	- https://potassco.org/
 	- https://potassco.org/labs/
 	- https://potassco.org/cemetery/ (this might see some newbies)
+
