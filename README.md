@@ -2,50 +2,68 @@
 
 ## Core systems
 
-** clingo
-** gringo
-** clasp
-** APIs
+### clingo
+### gringo
+### clasp
+
+#### APIs
    - rust
    - java
+   - python
+   - C++
+   - etc
 
 ## Extended systems
 
-** clingcon
-** clingo-dl
-** clingo-lp
-** clingo-lpx
-** fclingo
-** eclingo
+### clingcon
+### clingo-dl
+### clingo-lp
+### clingo-lpx
+### eclingo
+### fclingo
+### plingo
+### telingo
 
 ## Dedicated systems
 
-** asprin
-** clingraph
-** clinguin
-** clintest
-** ngo
-** clingo-server
-** clorm
-** python-clingox
-** acclingo
-** anthem
+### acclingo
+### anthem
+### asprin
+### clingo-server
+### clingraph
+### clinguin
+### clintest
+### clorm
+### ngo
+### python-clingox
+### tree-sitter-clingo
 
 ## Application-oriented systems
 
-  - aspcud
   - aspartame
-  - teaspoon
+  - aspcud
+  - asp-date-lib
   - asprilo
-  - plasp
-  - flatzingo
-  - qasp2qbf
   - chasp
+  - flatzingo
+  - guess-and-check
+  - plasp
+  - qasp2qbf
+  - teaspoon
+  - xls2asp
+  - xorro
 
 # Structure
 
-	- purpose/motivation
+	- motivation
 	- idea
+	- purpose
 	- architecture
 	- example use
 	- reference
+
+# Resources
+
+	- https://potassco.org/
+	- https://potassco.org/labs/
+	- https://potassco.org/cemetery/ (this might see some newbies)
