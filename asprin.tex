@@ -1,8 +1,50 @@
 % ----------------------------------------------------------------------
+\newcommand{\pf}[0]{\ensuremath{\mathit{preference}}} % {\ensuremath{p}}
+\newcommand{\name}[0]{\ensuremath{\mathit{name}}} % {\ensuremath{p}}
+% ----------------------------------------------------------------------
 \begin{frame}{asprin}
   \begin{itemize}
-  \item \structure{Idea} \ Extend ASP systems by combinations of qualitative and quantitative preferences for optimization
+  \item \structure{Idea} \ Extend \clingo\ by combinations of qualitative and quantitative preferences for optimization
   \item \structure{References} \ \cite{brderosc15a,alrosc18a,brderosc22a}
+  \end{itemize}
+\end{frame}
+% ----------------------------------------------------------------------
+\begin{frame}[fragile]{Example}
+\begin{lstlisting}[language=clingo,basicstyle=\small\ttfamily]
+#preference(costs,less(weight)){
+  C :: sauna : cost(sauna,C);
+  C ::  dive : cost(dive,C)
+}.
+#preference(fun,superset){
+  sauna; dive; hike; not bunji
+}.
+#preference(temps,aso){
+  dive >> sauna ||     hot;
+ sauna >> dive  || not hot
+}.
+#preference(all,pareto){**costs; **fun; **temps}.
+
+#optimize(all).
+\end{lstlisting}
+\end{frame}
+% ----------------------------------------------------------------------
+\begin{frame}{\asprin's library}
+  \begin{itemize}
+  \item<1-> \structure{Basic preference types}
+    \begin{itemize}
+    \item  \texttt{subset} and \texttt{superset}
+    \item  \texttt{less(cardinality)} and \texttt{more(cardinality)}
+    \item  \texttt{less(weight)} and \texttt{more(weight)}
+    \item  \texttt{aso}   (Answer Set Optimization) \nocite{brnitr03a}
+    \item  \texttt{poset} (Qualitative Preferences) \nocite{rogima10a}
+    \end{itemize}
+  \item<2-> \structure{Composite preference types} \nocite{sonpon06a}
+    \begin{itemize}
+    \item \texttt{neg}
+    \item \texttt{and}
+    \item \texttt{pareto}
+    \item \texttt{lexico}
+    \end{itemize}
   \end{itemize}
 \end{frame}
 % ----------------------------------------------------------------------
