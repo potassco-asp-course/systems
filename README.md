@@ -23,7 +23,8 @@
 ### fclingo
 ### plingo
 ### telingo
-### memelingo
+### meta-melingo
+### adlingo
 
 ## Dedicated systems
 

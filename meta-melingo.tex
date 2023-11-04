@@ -1,0 +1,20 @@
+% ----------------------------------------------------------------------
+\begin{frame}{\textit{meta-melingo}}
+  \begin{itemize}
+    \item \structure{Idea} System for metric reasoning via meta-programming and constraint solving
+    \item \structure{Features} 
+      \begin{itemize}
+      \item Metric formulas as input \texttt{eventually((10,20),a)} "Eventually between 10 and 20 times ahead $a$ will hold"
+      \item Uses reification and meta-programming
+      \item Intervals are translated using linear constraints via \textit{fclingo}, \clingodl and \clingcon
+      \item Integrated \clingraph\ visualization for traces
+      \end{itemize}
+    \item \structure{Technology} \ \clingo\ Meta-programming, \textit{fclingo}, \clingodl, \clingcon, \clingraph
+  \end{itemize}
+\end{frame}
+% ----------------------------------------------------------------------
+%
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../../main"
+%%% End:
