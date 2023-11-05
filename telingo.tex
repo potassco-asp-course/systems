@@ -1,8 +1,35 @@
 % ----------------------------------------------------------------------
 \begin{frame}{\telingo}
   \begin{itemize}
-  \item <1-> TBF
+  \item \structure{Idea} \ Extend \clingo\ with means for addressing dynamic problems
+  \item \structure{Features} \
+    \begin{itemize}
+    \item adds language elements from temporal, dynamic, (metric) logics
+    \end{itemize}
+  \item \structure{References} \ \cite{cakamosc19a,cadilasc20a}
   \end{itemize}
+\end{frame}
+% ----------------------------------------------------------------------
+\begin{frame}[fragile,shrink]{Elevator example}
+\begin{lstlisting}[language=clingo,basicstyle=\small\ttfamily]
+{ wait; up; down; serve } = 1 :- not &final.
+:- up,   at(X), not floor(X+1).
+:- down, at(X), not floor(X-1).
+
+at(X+1):- 'up,   'at(X).
+at(X-1):- 'down, 'at(X).
+at(X)  :- 'at(X), not 'up, not 'down.
+
+called(X):- 'called(X), #false:'at(X), 'serve.
+:- called(X), &final.
+ready :- called(X), at(X).
+\end{lstlisting}
+\pause
+\begin{lstlisting}[language=clingo,basicstyle=\small\ttfamily]
+:- not &del{
+  *( (*up + *down);; ?ready;; serve);; *wait .>? &final
+  }, &initial.
+\end{lstlisting}
 \end{frame}
 % ----------------------------------------------------------------------
 %
