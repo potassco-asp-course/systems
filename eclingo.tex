@@ -1,10 +1,45 @@
 % ----------------------------------------------------------------------
 \begin{frame}{\eclingo}
   \begin{itemize}
-  \item <1-> TBF
+  \item \structure{Idea} \ Extend eclingo with subjective literals in the body of rules
+  \item \structure{Features} \
+  \begin{itemize}
+    \item Subjective literal \texttt{\&k\{p\}} holds if \texttt{p} holds in all answer sets
+    \item Natural representation of~$\Sigma^P_2$ problems (without using saturation)
+  \end{itemize}
+  \item \structure{References} \ \cite{cafagarosc20a}
+  \item \structure{Applications} \ Conformant planning \cite{cafafa21a} and action reversavility \cite{famoch21a}
   \end{itemize}
 \end{frame}
 % ----------------------------------------------------------------------
+\begin{frame}[fragile]{Example: Conformant planning}
+\begin{onlyenv}<1>
+\begin{lstlisting}[language=clingo,basicstyle=\scriptsize\ttfamily,
+literate={~}{{$\sim$}}1
+]
+% Guess actions
+occurs(A,T) :- action(A), time(T), not &k{ ~ occurs(A) }.
+
+% Goal must be satisfied for all initial conditions
+:- not &k{ goal }.
+
+% Usual representation of inertia
+ holds(F,T+1) :-  holds(F,T), not -holds(F,T+1), T < n.
+-holds(F,T+1) :- -holds(F,T), not  holds(F,T+1), T < n.
+
+% The goal and the usual representation of action effects
+ goal :- -holds(alive, n).
+
+-holds(alive, T) :- occurs(trigger,T), holds(loaded,T).
+-holds(loaded,T) :- occurs(trigger,T).
+ holds(loaded,T) :- occurs(load,T).
+
+action(load). action(trigger). time(1..n).
+
+\end{lstlisting}
+\end{onlyenv}
+\end{frame}
+----------------------------------------------------------------------
 %
 %%% Local Variables:
 %%% mode: latex
