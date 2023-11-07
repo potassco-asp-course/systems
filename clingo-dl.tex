@@ -1,7 +1,7 @@
 % ----------------------------------------------------------------------
 \begin{frame}{\clingodl}
   \begin{itemize}
-  \item \structure{Idea} \ Extend \clingo\ with difference constraints over integers
+  \item \structure{Idea} \ extend \clingo\ with difference constraints over integers
   \item \structure{Features} \
     \begin{itemize}
     \item A difference constraint \
@@ -21,7 +21,10 @@
 \begin{frame}[fragile]{Example}
 \begin{lstlisting}[language=clingo,basicstyle=\small\ttfamily]
 #const n=2.  #const m=1000.
-task(1..n).  duration(T,200*T) :- task(T).
+
+task(1..n).
+
+duration(T,200*T) :- task(T).
 
 &dom { 1..m } = beg(T) :- task(T).
 &dom { 1..m } = end(T) :- task(T).
