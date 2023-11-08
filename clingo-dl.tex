@@ -29,7 +29,7 @@ duration(T,200*T) :- task(T).
 &dom { 1..m } = beg(T) :- task(T).
 &dom { 1..m } = end(T) :- task(T).
 
-&diff{end(T)-beg(T)} <= D :- duration(T,D).
+&diff{ end(T) - beg(T) } <= D :- duration(T,D).
 
 &show { beg/1; end/1 }.
 \end{lstlisting}
