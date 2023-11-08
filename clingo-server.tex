@@ -1,9 +1,65 @@
 % ----------------------------------------------------------------------
 \begin{frame}{\textit{clingo-server}}
   \begin{itemize}
-  \item <1-> TBF
+    \item \structure{Idea} \ Run clingo as a server and use it via a Web API 
+    \item \structure{API methods} \
+      \begin{itemize}
+        \item Create a solver
+        \item Register a theory (dl or clingcon)
+        \item Add a logic program / facts
+        \item Initiate Grounding
+        \item Set value of external atoms
+        \item Initiate Solving (with assumptions)
+        \item Poll models
+        \item Resume solving
+        \item Finalize search
+      \end{itemize}
+    \item \structure{Applications} \ Running ASP based solutions in the cloud
   \end{itemize}
 \end{frame}
+
+\begin{frame}[fragile,shrink]{Minimal usage example (\texttt{client.py})}
+  \begin{lstlisting}
+
+    # Create solver 
+    response = requests.get("http://my-clingo-server.de:8000/create")
+
+    # Upload logic program / facts
+    with open("queens.lp", "rb") as f:
+        response = requests.post(
+            "http://my-clingo-server.de:8000/add",
+            data=f.read(),
+            headers={"Content-Type": "text/plain; charset=utf-8 "},
+        )
+
+    # Initiate grounding
+    response = requests.post(
+        "http://my-clingo-server.de:8000/ground",
+        data=io.StringIO('{"base": []}').read(),
+        headers={"Content-Type": "application/json; charset=utf-8 "},
+    )
+
+    # Initiate solving
+    response = requests.get("http://my-clingo-server.de:8000/solve")
+
+    # Poll models
+    response = requests.get("http://my-clingo-server.de:8000/model", timeout=1)
+
+    if response.json() == "Running":
+        print("No model yet ... ")
+    if "Model" in response.json():
+        model = response.json()["Model"]
+        print("Model found:")
+        print(bytes(model).decode("utf-8"))
+    if response.json() == "Done":
+        print("Search finished, no more models.")
+
+    # Close solve handle
+    response = requests.get("http://my-clingo-server.de:8000/close")
+
+  \end{lstlisting}
+\end{frame}
+
 % ----------------------------------------------------------------------
 %
 %%% Local Variables:
