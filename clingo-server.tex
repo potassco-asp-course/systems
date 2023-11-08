@@ -1,12 +1,12 @@
 % ----------------------------------------------------------------------
 \begin{frame}{\textit{clingo-server}}
   \begin{itemize}
-    \item \structure{Idea} \ Run clingo as a server and use it via a Web API 
+    \item \structure{Idea} \ run \clingo\ as a server and use it via a Web API
     \item \structure{API methods} \
       \begin{itemize}
         \item Create a solver
-        \item Register a theory (dl or clingcon)
-        \item Add a logic program / facts
+        \item Register a theory
+        \item Add logic programs
         \item Initiate Grounding
         \item Set value of external atoms
         \item Initiate Solving (with assumptions)
@@ -14,14 +14,13 @@
         \item Resume solving
         \item Finalize search
       \end{itemize}
-    \item \structure{Applications} \ Running ASP based solutions in the cloud
+    \item \structure{Applications} \ Running ASP-based systems in the cloud
   \end{itemize}
 \end{frame}
-
-\begin{frame}[fragile,shrink]{Minimal usage example (\texttt{client.py})}
+% ----------------------------------------------------------------------
+\begin{frame}[fragile,shrink]{Example}{Minimal usage}
   \begin{lstlisting}
-
-    # Create solver 
+    # Create solver
     response = requests.get("http://my-clingo-server.de:8000/create")
 
     # Upload logic program / facts
@@ -56,7 +55,6 @@
 
     # Close solve handle
     response = requests.get("http://my-clingo-server.de:8000/close")
-
   \end{lstlisting}
 \end{frame}
 
