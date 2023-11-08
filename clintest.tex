@@ -1,10 +1,35 @@
 % ----------------------------------------------------------------------
 \begin{frame}{\clintest}
   \begin{itemize}
-  \item <1-> TBF
+  \item \structure{Idea} \ A test framework for \clingo\ programs
+  \item \structure{Features}
+    \begin{itemize}
+      \item Numerous off-the-shelf tests
+      \item Support for integrating custom-build tests
+      \item Efficent tests execution through the steering of the solving process
+    \end{itemize}
   \end{itemize}
 \end{frame}
 % ----------------------------------------------------------------------
+\begin{frame}[fragile]{Example}
+  \begin{lstlisting}[language=python,basicstyle=\small\ttfamily]
+  from clintest.test import Assert, And
+  from clintest.quantifier import All, Any
+  from clintest.assertion import Contains
+  from clintest.solver import Clingo
+
+  solver = Clingo("0", "a. {b}.")
+  test = And(
+      Assert(Any(), Contains("a")),
+      Assert(All(), Contains("b")),
+      Assert(Any(), Contains("c")),
+  )
+
+  solver.solve(test)
+  test.assert_()
+  \end{lstlisting}
+  \end{frame}
+  % ----------------------------------------------------------------------
 %
 %%% Local Variables:
 %%% mode: latex
