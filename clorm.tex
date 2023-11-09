@@ -1,9 +1,53 @@
 % ----------------------------------------------------------------------
 \begin{frame}{\clorm}
   \begin{itemize}
-  \item <1-> TBF
+  \item \structure{Motivation} \
+    \begin{itemize}
+    \item Provide a Python library that simplifies working with ASP facts
+    \item Write Python-\clingo\ integration that is easy to refactor and debug
+      \end{itemize}
+  \item \structure{Features} \
+    \begin{itemize}
+    \item Builds on the \clingo\ Python API
+    \item Uses Python classes to define the mapping to \clingo\ predicates
+    \item Provides functions to import/export \clingo\ solver facts
+    \item Provides a specialized container class with an intuitive query language
+    \end{itemize}
+  \item \structure{Documentation} \url{https://clorm.readthedocs.io}
+  \item \structure{Source} \url{https://github.com/potassco/clorm}
   \end{itemize}
 \end{frame}
+
+
+\begin{frame}[fragile]{Example}
+
+  Given ASP facts with a common predicate signature:
+
+\begin{lstlisting}[language=clingo,basicstyle=\small\ttfamily]
+   assign("Bob", task1).   assign("Bob", task3).
+   assign("Bill", task2).
+\end{lstlisting}
+
+  Use a Python class to specify the mapping:
+
+\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily]
+   class Assign(Predicate):
+      person: str
+      task: ConstantStr
+\end{lstlisting}
+
+Then easily query a set of facts stored in a \emph{FactBase} container:
+
+\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily]
+   query = factbase.query(Assign) \
+                   .where(Assign.person == "Bob") \
+                   .order_by(Assign.task)
+   for assign in query.all():
+       print(assign)
+\end{lstlisting}
+
+\end{frame}
+%%%
 % ----------------------------------------------------------------------
 %
 %%% Local Variables:
