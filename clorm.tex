@@ -1,7 +1,50 @@
 % ----------------------------------------------------------------------
 \begin{frame}{\clorm}
   \begin{itemize}
-  \item <1-> TBF
+  \item \structure{Idea} \
+    \begin{itemize}
+    \item simplify working with ASP facts via a \python\ library
+    \item simplify \python-\clingo\ integration for easy refactoring and debugging
+      \end{itemize}
+  \item \structure{Features} \
+    \begin{itemize}
+    \item \python\ classes to define the mapping to \clingo\ predicates
+    \item functions to import/export \clingo\ solver facts
+    \item specialized container class with an intuitive query language
+    \end{itemize}
+  \item \structure{Technology}   \ \clingo\ (\python\ API)
+  % \item \structure{Documentation} \url{https://clorm.readthedocs.io}
+  % \item \structure{Source} \url{https://github.com/potassco/clorm}
+  \end{itemize}
+\end{frame}
+% ----------------------------------------------------------------------
+\begin{frame}[fragile]{Example}
+
+  \begin{itemize}
+  \item Given ASP facts with a common predicate signature:
+
+\begin{lstlisting}[language=clingo,basicstyle=\small\ttfamily]
+ assign("Bob", task1).   assign("Bob", task3).
+ assign("Bill", task2).
+\end{lstlisting}
+
+  \item Use a Python class to specify the mapping:
+
+\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily]
+ class Assign(Predicate):
+    person: str
+    task: ConstantStr
+\end{lstlisting}
+
+  \item Then easily query a set of facts stored in a \emph{FactBase} container:
+
+\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily]
+ query = factbase.query(Assign) \
+                 .where(Assign.person == "Bob") \
+                 .order_by(Assign.task)
+ for assign in query.all():
+     print(assign)
+\end{lstlisting}
   \end{itemize}
 \end{frame}
 % ----------------------------------------------------------------------
