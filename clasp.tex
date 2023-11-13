@@ -14,6 +14,36 @@
   \end{itemize}
 \end{frame}
 % ----------------------------------------------------------------------
+
+% ----------------------------------------------------------------------
+\begin{frame}[fragile,shrink=1]{Example: Graph Coloring}
+\begin{tikzpicture}[remember picture,overlay]
+  \node[xshift=-0.5cm,yshift=-3cm] at (current page.north east){%
+  \includegraphics[width=.5\textwidth]{australia-col}};
+\end{tikzpicture}
+\begin{lstlisting}
+$ clasp grounding.aspif
+clasp version 3.3.8
+Reading from grounding.aspif
+Solving...
+Answer: 1
+vertex(a) vertex(b) vertex(c) ...
+edge(a,b) edge(a,c) edge(b,c) ...
+color(red) color(green) color(blue)
+assign(a,blue)  assign(b,red)
+assign(c,green) assign(d,blue)
+assign(e,red)   assign(g,blue)
+assign(f,blue)  assign(h,red)
+SATISFIABLE
+
+Models   : 1+
+Calls    : 1
+Time     : 0.001s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time : 0.001s
+\end{lstlisting}
+\end{frame}
+% ----------------------------------------------------------------------
+
 %
 %%% Local Variables:
 %%% mode: latex
