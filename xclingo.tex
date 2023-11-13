@@ -23,7 +23,7 @@
 
 % !trace { holds(on(B),L,T),
            "Block % was on % at %",B,L,T }
-         :- holds(on(B),L,T), c(on(B),T), T!=last, T!=0.
+         :- holds(on(B),L,T), changed(on(B),T), T!=last, T!=0.
 
 % !show_trace { holds(F,V,last) }.
 \end{lstlisting}
