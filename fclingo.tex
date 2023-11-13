@@ -1,18 +1,19 @@
 % ----------------------------------------------------------------------
 \begin{frame}{\fclingo}
   \begin{itemize}
-  \item \structure{Idea} \ extends \clingo\ with ASP-like conditional linear constraints over integers
+  \item \structure{Idea} \ extend \clingo\ with ASP-like linear constraints over integers
   \item \structure{Features} \
     \begin{itemize}
-    \item Integer variables not subject to grounding, 
-    \item Specialized solver for linear constraints
-    \item Values of variables must be derivable, variables may be undefined
-    \item Optional variables, defaults, assignments
-    \item Check whether variables are defined
-    \item Aggregates: strict and non-strict \lstinline{&sum}, \lstinline{&min}, \lstinline{&max}
+    \item integer variables not subject to grounding
+      % \item specialized solver for linear constraints
+    \item values of variables must be derivable, variables may be undefined
+    \item optional variables, defaults, assignments
+    \item check whether variables are defined
+    \item basic constraints: strict and non-strict \lstinline{&sum}, \lstinline{&min}, \lstinline{&max}
     \end{itemize}
-  \item \structure{Technology} \ Translation to \clingcon
+  \item \structure{Technology} \ translation to \clingcon
   \item \structure{References} \ \cite{cafascwa20a,cafascwa20b}
+  \item \structure{Applications} \ incorporate quantities, like resources and/or time
   \end{itemize}
 \end{frame}
 % ----------------------------------------------------------------------

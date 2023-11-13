@@ -1,10 +1,52 @@
 % ----------------------------------------------------------------------
-\begin{frame}{\xclingo}
+\begin{frame}{\xclingo}{Made at Potassco Solutions Spain}
   \begin{itemize}
-  \item <1-> TBF
+  \item <1-> explain answer sets
+      adds \structure{text annotations} to display \structure{proofs} 
   \end{itemize}
 \end{frame}
 % ----------------------------------------------------------------------
+\begin{frame}[fragile,shrink]{Example}{Blocks world}
+% \begin{lstlisting}[language=clingo,basicstyle=\scriptsize\ttfamily]
+% unclear(C,T) :- holds(on(B),C,T),C!=table,time(T).
+% :- occurs(move(B,_),T), unclear(B,T-1).
+% :- occurs(move(_,L),T), unclear(L,T-1).
+% :- occurs(move(B,table),T), holds(on(B),table,T-1), step(T).
+% holds(F,V,T) :- holds(F,V,T-1), not c(F,T), step(T).
+% c(F,T)   :- holds(F,V,T-1),holds(F,W,T),V!=W, step(T).
+% {occurs(move(B,From,To),T): location(To),To!=B} :- step(T),holds(on(B),From,T-1).
+% occurs(move(B,To),T) :- occurs(move(B,From,To),T).
+% :- occurs(move(B,_),T),occurs(move(C,_),T),B!=C.
+% holds(on(B),L,T) :- occurs(move(B,L),T).
+% :- g(on(B),L), not holds(on(B),L,last).
+% \end{lstlisting}
+\pause
+\begin{lstlisting}[language=clingo,basicstyle=\scriptsize\ttfamily]
+timetext(0,initially).
+timetext(last,finally).
+
+% !trace {occurs(move(B,From,To),T),"We moved block % from % to % at step %",B,From,To,T}
+         :- occurs(move(B,From,To),T).
+
+% !trace {holds(on(B),L,T), "Block % was % on %",B,Txt,L}
+         :- holds(on(B),L,T), timetext(T,Txt).
+
+% !trace {holds(on(B),L,T),"Block % was on % at %",B,L,T}
+         :- holds(on(B),L,T),c(on(B),T),T!=last,T!=0.
+
+% !show_trace {holds(F,V,last)}.
+\end{lstlisting}
+\pause
+\begin{lstlisting}[language=clingo,basicstyle=\scriptsize\ttfamily]
+*
+|__"Block 14 was finally on 13"
+|  |__"Block 14 was on 13 at 22"
+|  |  |__"We moved block 14 from table to 13 at step 22"
+|  |  |  |__"Block 14 was on table at 12"
+|  |  |  |  |__"We moved block 14 from 11 to table at step 12"
+|  |  |  |  |  |__"Block 14 was initially on 11"
+\end{lstlisting}
+\end{frame}
 %
 %%% Local Variables:
 %%% mode: latex
