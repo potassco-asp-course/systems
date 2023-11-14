@@ -13,8 +13,70 @@
   \item \structure{Applications} \ notably, hybrid metabolic network completion~\cite{frscscsiwa18a}
   \end{itemize}
 \end{frame}
+
 % ----------------------------------------------------------------------
-%
+\begin{frame}[fragile]{Example}{0/1 Knapsack}
+\begin{tikzpicture}[remember picture,overlay]
+  \node[anchor=north east,xshift=-1ex,yshift=-2.1cm] at (current page.north east){%
+  \includegraphics[width=.26\textwidth]{pictures/knapsack.pdf}};
+\end{tikzpicture}
+\begin{adjustbox}{max totalsize={\textwidth}{.75\textheight},keepaspectratio}
+\begin{lstlisting}
+% instance
+
+item(a;b;c;d).
+weight(a,"3.3";b,"4.7";c,"6.1";d,"5.9").
+value(a,"3.1";b,"3.2";c,"1.9";d,"4.8").
+load("9.1").
+
+% encoding
+
+{ pack(I) } :- item(I).
+
+&sum { I } = 1 :- pack(I).
+&sum { I } = 0 :- item(I), not pack(I).
+
+&sum { W*I: weight(I,W) } <= L :- load(L).
+&maximize { P*I: value(I,P) }.
+\end{lstlisting}
+\end{adjustbox}
+\end{frame}
+% ----------------------------------------------------------------------
+
+% ----------------------------------------------------------------------
+\begin{frame}[fragile]{Example}{0/1 Knapsack}
+\begin{tikzpicture}[remember picture,overlay]
+  \node[anchor=north east,xshift=-2em,yshift=-3cm] at (current page.north east){%
+  \includegraphics[width=.21\textwidth]{pictures/knapsack-sol.pdf}};
+\end{tikzpicture}
+\begin{adjustbox}{max totalsize={\textwidth}{.75\textheight},keepaspectratio}
+\begin{lstlisting}
+$ clingo-lpx-banane encoding.lp  instance.lp --objective=global --quiet=1 0
+clingo-lpx version 1.3.0
+Reading from knapsack.lp
+Solving...
+Answer: 4
+item(a) item(b) item(c) item(d)
+load("9.1")
+pack(a) pack(b)
+value(a,"3.1") value(b,"3.2")
+value(c,"1.9") value(d,"4.8")
+weight(a,"3.3") weight(b,"4.7")
+weight(c,"6.1") weight(d,"5.9")
+Assignment:
+a=1 b=1 c=0 d=0
+Optimization: 63/10 [bounded]
+SATISFIABLE
+
+Models       : 4
+Calls        : 1
+Time         : 0.001s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.001s
+\end{lstlisting}
+\end{adjustbox}
+\end{frame}
+% ----------------------------------------------------------------------
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../../main"
