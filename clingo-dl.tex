@@ -19,23 +19,126 @@
   \end{itemize}
 \end{frame}
 % ----------------------------------------------------------------------
-\begin{frame}[fragile]{Example}{Task scheduling}
-\begin{lstlisting}[language=clingo,basicstyle=\scriptsize\ttfamily]
-bound(16).   unit(1).       unit(2).
-task(1).    dur(1,1,3).    dur(1,2,4).
-task(2).    dur(2,1,1).    dur(2,2,6).
-task(3).    dur(3,1,5).    dur(3,2,5).
 
-1 { assign(S,T) : task(S) } 1 :- task(T).
-1 { assign(S,T) : task(T) } 1 :- task(S).
+% draw the task scheduling instance and put it in a box (the poor thing)
+\newbox\instance%
+\sbox\instance{%
+\newcommand\tasks[1]{
+\raisebox{-.5pt}{\begin{tikzpicture}[
+define color/.code 2 args={\definecolor{##1}{HTML}{##2}},
+start chain,node distance=0,
+every node/.style={minimum height=2.5mm,minimum width=2.5mm,draw,inner sep=0,xshift=-0.4pt,on chain},
+]
+\draw
+  foreach \c/\n in {#1} {
+    { [define color={ctemp}{\c}]
+      foreach \i in {1,...,\n} {
+        node [fill=ctemp] { }
+      }
+    }
+  }
+  ;
+\end{tikzpicture}
+}}%
+\begin{tabular}{cll}\toprule
+        & \multicolumn{2}{c}{durations}\\\cmidrule{2-3}
+tasks   & unit~\(u_1\) & unit~\(u_2\) \\\midrule
+\(t_1\) & \tasks{edd400/3} & \tasks{c4a000/4} \\
+\(t_2\) & \tasks{73d216/1} & \tasks{4e9a06/6} \\
+\(t_3\) & \tasks{f57900/5} & \tasks{ce5c00/5} \\\bottomrule
+\end{tabular}}
+
+\begin{frame}[fragile]{Example}{Task scheduling}
+\begin{adjustbox}{max totalsize={\textwidth}{.83\textheight},keepaspectratio}
+\begin{lstlisting}
+% instance
+
+bound(16).  unit(1).     unit(2).
+task(1).   dur(1,1,3).  dur(1,2,4).
+task(2).   dur(2,1,1).  dur(2,2,6).
+task(3).   dur(3,1,5).  dur(3,2,5).
+
+% encoding
+
+{assign(S,T): task(S)}=1 :- task(T).
+{assign(S,T): task(T)}=1 :- task(S).
 
 &diff { (S,U)-(S+1,U) } <= -D  :- assign(S,T), dur(T,U,D), task(S+1).
 &diff { (S,U)-(S,U+1) } <= -D  :- assign(S,T), dur(T,U,D), unit(U+1).
 &diff {     0-(S,U)   } <= 0   :- assign(S,T), unit(U).
 &diff { (S,U)-0       } <= B-D :- assign(S,T), dur(T,U,D), bound(B).
 \end{lstlisting}
+\end{adjustbox}
+\begin{tikzpicture}[remember picture,overlay]
+  \node[anchor=north east,xshift=-1em,yshift=-2.2cm] at (current page.north east){\usebox\instance};
+\end{tikzpicture}
 \end{frame}
 % ----------------------------------------------------------------------
+
+% draw a solution and put it in a box (the poor thing)
+\newbox\solution%
+\sbox{\solution}{%
+\newcommand\arrow[3][0]{%
+\draw[->] ($(#2.south)+(.5mm,0)$) |- ($(#2)!.5!(#3)+(0,#1)$) -| ($(#3.north)-(.5mm,0)$);}
+\newcommand\solTasks[2]{%
+\raisebox{-.5pt}{\begin{tikzpicture}[
+remember picture,
+define color/.code 2 args={\definecolor{##1}{HTML}{##2}},
+start chain,node distance=0,
+every node/.style={minimum height=2.5mm,minimum width=2.5mm,on chain,draw,fill=ctemp,inner sep=0,xshift=-0.4pt},
+task/.style={},
+gap/.style={opacity=0},
+]
+\draw
+  foreach \c/\s/\n[count=\g] in {#2} {
+    { [define color={ctemp}{\c}]
+      foreach \i in {1,...,\n} {
+        node [\s] (#1-\g-\i) { }
+      }
+    }
+  }
+  ;
+\end{tikzpicture}
+}}
+\begin{tabular}{cl}\toprule
+unit    & \multicolumn{1}{c}{solution} \\\midrule
+        & \(t_2 < t_3 < t_1\) \\
+\(u_1\) & \solTasks{s21}{73d216/task/1,f57900/task/5,edd400/task/3} \\[1mm]
+\(u_2\) & \solTasks{s22}{000000/gap/1,4e9a06/task/6,ce5c00/task/5,c4a000/task/4} \\\bottomrule
+\end{tabular}
+\begin{tikzpicture}[overlay,remember picture]
+\arrow{s21-1-1}{s22-2-1} \arrow{s21-2-5}{s22-3-1} \arrow{s21-3-3}{s22-4-1}
+\end{tikzpicture}\hfill
+}
+
+\begin{frame}[fragile]{Example}{Task scheduling}
+\begin{adjustbox}{max totalsize={\textwidth}{.83\textheight},keepaspectratio}
+\begin{lstlisting}
+clingo-dl version 1.4.0
+Reading from example.lp
+Solving...
+Answer: 1
+bound(16) unit(1) unit(2)
+task(1) task(2) task(3)
+dur(1,1,3) dur(1,2,4) dur(2,1,1)
+dur(2,2,6) dur(3,1,5) dur(3,2,5)
+assign(1,2) dl((1,1),0) dl((1,2),1)
+assign(2,3) dl((2,1),1) dl((2,2),7)
+assign(3,1) dl((3,1),6) dl((3,2),12)
+SATISFIABLE
+
+Models      : 1+
+Calls       : 1
+Time        : 0.039s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 0.002s
+\end{lstlisting}
+\end{adjustbox}
+\begin{tikzpicture}[remember picture,overlay]
+  \node[anchor=north east,xshift=-1em,yshift=-2.2cm] at (current page.north east){\usebox\solution};
+\end{tikzpicture}
+\end{frame}
+% ----------------------------------------------------------------------
+
 %
 %%% Local Variables:
 %%% mode: latex
