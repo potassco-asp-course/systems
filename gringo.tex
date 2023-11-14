@@ -18,7 +18,7 @@
 % ----------------------------------------------------------------------
 \begin{frame}[fragile]{Example: Graph Coloring}
 \begin{tikzpicture}[remember picture,overlay]
-  \node[xshift=-3.5cm,yshift=-4.5cm] at (current page.north east){%
+  \node[anchor=north east,xshift=-1em,yshift=-2cm] at (current page.north east){%
   \includegraphics[width=.4\textwidth]{australia}};
 \end{tikzpicture}
 \begin{lstlisting}
@@ -39,7 +39,8 @@ color(red;green;blue).
 % ----------------------------------------------------------------------
 
 % ----------------------------------------------------------------------
-\begin{frame}[fragile,shrink=1]{Grounding}
+\begin{frame}[fragile]{Grounding}
+\begin{adjustbox}{max totalsize={\textwidth}{.83\textheight},keepaspectratio}
 \begin{lstlisting}
 $ gringo --text enconding.lp instance.lp
 vertex(a). vertex(b). vertex(c). vertex(d). vertex(e). vertex(f). vertex(g). vertex(h).
@@ -70,11 +71,13 @@ color(red). color(green). color(blue).
 :- assign(f,blue),assign(e,blue).   :- assign(g,red),assign(e,red).
 :- assign(g,green),assign(e,green). :- assign(g,blue),assign(e,blue).
 \end{lstlisting}
+\end{adjustbox}
 \end{frame}
 % ----------------------------------------------------------------------
 
 % ----------------------------------------------------------------------
-\begin{frame}[fragile,shrink=1]{Grounding for the Solver}
+\begin{frame}[fragile]{Grounding for the Solver}
+\begin{adjustbox}{max totalsize={\textwidth}{.83\textheight},keepaspectratio}
 \begin{lstlisting}
 $ gringo enconding.lp instance.lp
 asp 1 0 0
@@ -104,6 +107,7 @@ asp 1 0 0
 ...
 0
 \end{lstlisting}
+\end{adjustbox}
 \end{frame}
 % ----------------------------------------------------------------------
 
