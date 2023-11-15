@@ -17,13 +17,25 @@
   \end{itemize}
 \end{frame}
 % ----------------------------------------------------------------------
-\begin{frame}[fragile,shrink]{Example}{Elevator control}
-\begin{lstlisting}[language=clingo,basicstyle=\small\ttfamily]
-#program always.
-
-at(1) :- &initial. called(3) :- &initial.
+\begin{frame}[fragile]{Example}{Elevator control}
+\only<1>{%
+\begin{tikzpicture}[remember picture,overlay]
+  \node[anchor=north east,xshift=-3em,yshift=-2cm] at (current page.north east){%
+  \includegraphics[width=.2\textwidth]{pictures/elevator-initial}};
+\end{tikzpicture}}
+\only<2>{%
+\begin{tikzpicture}[remember picture,overlay]
+  \node[anchor=north east,xshift=-3em,yshift=-2cm] at (current page.north east){%
+  \includegraphics[width=.2\textwidth]{pictures/elevator-final}};
+\end{tikzpicture}}
+\begin{adjustbox}{max totalsize={\textwidth}{.75\textheight},keepaspectratio}
+\begin{lstlisting}[escapeinside=||]
+#program init. % instance
+called(3).
+at(1).
 floor(1..3).
 
+#program always. % encoding
 { wait; up; down; serve } = 1 :- not &final.
 :- up,   at(X), not _floor(X+1).
 :- down, at(X), not _floor(X-1).
@@ -36,13 +48,12 @@ called(X):- 'called(X), #false:'at(X), 'serve.
 
 :- called(X), &final.
 ready :- called(X), at(X).
-\end{lstlisting}
-\pause
-\begin{lstlisting}[language=clingo,basicstyle=\small\ttfamily]
+|\pause|
 :- not &del{
   *( (*up + *down);; ?ready;; serve);; *wait .>? &final
   }, &initial.
 \end{lstlisting}
+\end{adjustbox}
 \end{frame}
 % ----------------------------------------------------------------------
 %
