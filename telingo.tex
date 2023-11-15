@@ -22,12 +22,12 @@
 \begin{tikzpicture}[remember picture,overlay]
   \node[anchor=north east,xshift=-3em,yshift=-2cm] at (current page.north east){%
   \includegraphics[width=.2\textwidth]{pictures/elevator-initial}};
-\end{tikzpicture}}
+\end{tikzpicture}}%
 \only<2->{%
 \begin{tikzpicture}[remember picture,overlay]
   \node[anchor=north east,xshift=-3em,yshift=-2cm] at (current page.north east){%
   \includegraphics[width=.2\textwidth]{pictures/elevator-final}};
-\end{tikzpicture}}
+\end{tikzpicture}}%
 \begin{adjustbox}{max totalsize={\textwidth}{.75\textheight},keepaspectratio}
 \begin{lstlisting}[escapeinside=||]
 #program init.
