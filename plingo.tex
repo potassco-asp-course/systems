@@ -12,6 +12,57 @@
   \item \structure{Applications} \ incorporate uncertainty, like failure
   \end{itemize}
 \end{frame}
+
+\begin{frame}[fragile]{Example}{Birds}
+\begin{tikzpicture}[remember picture,overlay]
+  \node[anchor=north east,xshift=-1em,yshift=-2cm] at (current page.north east){%
+  \includegraphics[width=.4\textwidth]{birds}};
+\end{tikzpicture}
+\begin{lstlisting}[escapeinside=||]
+bird(X) :- resident(X).
+bird(X) :- migratory(X).
+:- resident(X), migratory(X).
+resident(jo) :- &weight(2).
+migratory(jo) :- &weight(1).
+
+&query(resident(jo)).
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Example}{Birds}
+\begin{tikzpicture}[remember picture,overlay]
+  \node[anchor=north east,xshift=-1em,yshift=-2cm] at (current page.north east){%
+  \includegraphics[width=.4\textwidth]{birds-resident}};
+\end{tikzpicture}
+\begin{adjustbox}{max totalsize={\textwidth}{.75\textheight},keepaspectratio}
+\begin{lstlisting}[escapeinside=||]
+$ plingo birds.plp --frontend=lpmln-alt
+plingo version 1.0.0
+Reading from birds.plp
+Solving...
+Answer: 1
+
+Optimization: 300000
+Answer: 2
+resident(jo) bird(jo)
+Optimization: 100000
+Answer: 3
+migratory(jo) bird(jo)
+Optimization: 200000
+
+resident(jo): 0.66524
+
+OPTIMUM FOUND
+
+Models       : 3
+  Optimum    : yes
+Calls        : 1
+Time         : 0.002s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.002s
+\end{lstlisting}
+\end{adjustbox}
+\end{frame}
+
 % ----------------------------------------------------------------------
 %
 %%% Local Variables:
