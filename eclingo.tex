@@ -13,22 +13,20 @@
 \end{frame}
 % ----------------------------------------------------------------------
 \begin{frame}[fragile]{Example}{Conformant planning}
-\begin{lstlisting}[language=clingo,basicstyle=\scriptsize\ttfamily,literate={~}{{$\sim$}}1]
+\begin{lstlisting}[language=clingo,basicstyle=\scriptsize\ttfamily]%,literate={~}{{$\sim$}}1]
 time(1..n).
-action(load). action(trigger).
+action(load;trigger).
 
-occurs(A,T) :- action(A), time(T), not &k{ ~ occurs(A) }.
+occurs(A,T) :- action(A), time(T), not &k{ ~occurs(A,T) }.
 
-:- not &k{ goal }.
+ holds(loaded,T) :- occurs(load,T).
+-holds(loaded,T) :- occurs(trigger,T).
+-holds(alive,T)  :- occurs(trigger,T), holds(loaded,T-1).
 
  holds(F,T+1) :-  holds(F,T), not -holds(F,T+1), T < n.
 -holds(F,T+1) :- -holds(F,T), not  holds(F,T+1), T < n.
 
- goal :- -holds(alive, n).
-
--holds(alive, T) :- occurs(trigger,T), holds(loaded,T).
--holds(loaded,T) :- occurs(trigger,T).
- holds(loaded,T) :- occurs(load,T).
+:- not &k { -holds(alive,n) }.
 \end{lstlisting}
 \end{frame}
 % ----------------------------------------------------------------------
