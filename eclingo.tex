@@ -13,20 +13,51 @@
 \end{frame}
 % ----------------------------------------------------------------------
 \begin{frame}[fragile]{Example}{Conformant planning}
-\begin{lstlisting}[language=clingo,basicstyle=\scriptsize\ttfamily,literate={~}{{$\sim$}}1]
+\begin{tikzpicture}[remember picture,overlay]
+  \node[anchor=north east,xshift=-1ex,yshift=-2cm] at (current page.north east){%
+  \only<1>{\includegraphics[width=.25\textwidth]{pictures/yale-init}}
+  \only<2>{\includegraphics[width=.25\textwidth]{pictures/yale-targeted}}};
+\end{tikzpicture}
+\begin{adjustbox}{max totalsize={.75\textwidth}{.83\textheight},keepaspectratio}
+\begin{lstlisting}[literate={~}{{$\sim$}}1,escapeinside=||]
 time(1..n).
-action(load;trigger).
-
-occurs(A,T) :- action(A), time(T), not &k{ ~ occurs(A,T) }.
+action(load). 
+action(trigger).
 
  holds(loaded,T) :- occurs(load,T).
 -holds(loaded,T) :- occurs(trigger,T).
 -holds(alive,T)  :- occurs(trigger,T), holds(loaded,T-1).
 
- holds(F,T+1) :-  holds(F,T), not -holds(F,T+1), T < n.
--holds(F,T+1) :- -holds(F,T), not  holds(F,T+1), T < n.
+goal :- -holds(alive, n).
+|\pause|
+% conformant planning
 
-:- not &k { -holds(alive,n) }.
+occurs(A,T) :- action(A), time(T), not &k{ ~occurs(A,T) }.
+
+ holds(F,T+1) :-  holds(F,T), not -holds(F,T+1) , T < n.
+-holds(F,T+1) :- -holds(F,T), not  holds(F,T+1) , T < n.
+
+:- not &k { goal }.
+\end{lstlisting}
+\end{adjustbox}
+\end{frame}
+% ----------------------------------------------------------------------
+\begin{frame}[fragile]{Example}{Conformant planning}
+\begin{tikzpicture}[remember picture,overlay]
+  \node[anchor=north east,xshift=-1ex,yshift=-2cm] at (current page.north east){%
+  \includegraphics[width=.25\textwidth]{pictures/yale-goal}};
+\end{tikzpicture}
+\begin{lstlisting}[literate={~}{{$\sim$}}1]
+$ eclingo yale.lp -c n=2
+eclingo version 0.2.0
+Solving...
+Answer: 1
+&k{ ~occurs(trigger,1) } 
+&k{ ~occurs(load,2) } 
+&k{ goal }
+SATISFIABLE
+
+Elapsed time: 0.002736 s
 \end{lstlisting}
 \end{frame}
 % ----------------------------------------------------------------------
