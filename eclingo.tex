@@ -17,7 +17,7 @@
 time(1..n).
 action(load;trigger).
 
-occurs(A,T) :- action(A), time(T), not &k{ ~occurs(A,T) }.
+occurs(A,T) :- action(A), time(T), not &k{ ~ occurs(A,T) }.
 
  holds(loaded,T) :- occurs(load,T).
 -holds(loaded,T) :- occurs(trigger,T).
