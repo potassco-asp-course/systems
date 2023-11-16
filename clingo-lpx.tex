@@ -20,15 +20,12 @@
   \includegraphics[width=.26\textwidth]{pictures/knapsack.pdf}};
 \end{tikzpicture}
 \begin{adjustbox}{max totalsize={\textwidth}{.75\textheight},keepaspectratio}
-\begin{lstlisting}
-% instance
-
+\begin{lstlisting}[escapeinside=||]
 item(a;b;c;d).
 weight(a,"3.3";b,"4.7";c,"6.1";d,"5.9").
 value(a,"3.1";b,"3.2";c,"1.9";d,"4.8").
 load("9.1").
-
-% encoding
+|\pause|
 
 { pack(I) } :- item(I).
 
@@ -48,7 +45,7 @@ load("9.1").
 \end{tikzpicture}
 \begin{adjustbox}{max totalsize={\textwidth}{.75\textheight},keepaspectratio}
 \begin{lstlisting}
-$ clingo-lpx-banane encoding.lp  instance.lp --objective=global --quiet=1 0
+$ clingo-lpx encoding.lp  instance.lp --objective=global --quiet=1 0
 clingo-lpx version 1.3.0
 Reading from knapsack.lp
 Solving...
