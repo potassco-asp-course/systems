@@ -8,7 +8,7 @@
         % \texttt{elem/2}, style: \texttt{attr/3} and actions: \texttt{when/4}
       \item extensible set of backend operations for interaction
         % \texttt{add\_assumption}, \texttt{next\_solution}, \texttt{set\_external}, etc.
-      \item brave reasoning for menus
+      \item brave reasoning for menus (via predicate \ \lstinline{_b(X)} )
       % \item Available extensions for \clingraph, explanations, temporal reasoning.
       \end{itemize}
     \item \structure{Technology} \ \clingo, \clorm, \textit{angular}, \textit{bootstrap}
@@ -18,7 +18,8 @@
       study regulations~\cite{hamaneotroscsc23a}
   \end{itemize}
 \end{frame}
-\begin{frame}[fragile]{Example}{Interactive Sudoku}
+% ----------------------------------------------------------------------
+\begin{frame}[fragile]{Example}{Interactive sudoku}
   \begin{adjustbox}{max totalsize={\textwidth}{.5\textheight},keepaspectratio}
     \begin{lstlisting}[]
 elem(window, window, root).
@@ -39,13 +40,12 @@ when(dv(X,Y, V), click, call, add_assumption(sudoku(X,Y, V))) :- _b(sudoku(X,Y, 
   \end{lstlisting}
   \end{adjustbox}
 \end{frame}
-
+% ----------------------------------------------------------------------
 \begin{frame}[fragile]{Example}{Interactive Sudoku}
-
   \includegraphics<1>[height=0.7\textheight]{pictures/clinguin1.png}
   \includegraphics<2>[height=0.7\textheight]{pictures/clinguin2.png}
   \includegraphics<3>[height=0.7\textheight]{pictures/clinguin3.png}
-  \end{frame}
+\end{frame}
 % ----------------------------------------------------------------------
 %
 %%% Local Variables:

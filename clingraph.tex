@@ -13,8 +13,7 @@
     \item \structure{Applications} \ debugging, explanation, visualization % Product Configuration, Warehouse logistics, etc
   \end{itemize}
 \end{frame}
-
-
+% ----------------------------------------------------------------------
 \begin{frame}[fragile]{Example}{Queens puzzle}
   \begin{adjustbox}{max totalsize={\textwidth}{.7\textheight},keepaspectratio}
     \begin{lstlisting}[mathescape]
@@ -28,15 +27,13 @@ attr(node,(X,Y),fillcolor,gray) :- cell(X,Y),(X+Y)\2=0.
 attr(node,(X,Y),fillcolor,white) :- cell(X,Y),(X+Y)\2!=0.
 attr(node,(X,Y),fontsize,"50") :- queen(X,Y).
 attr(node,(X,Y),label,"$\symqueen$") :- queen(X,Y).
-  \end{lstlisting}
+    \end{lstlisting}
   \end{adjustbox}
-
 \end{frame}
-  \begin{frame}[fragile]{Example}{Queens Puzzle}
-
+% ----------------------------------------------------------------------
+\begin{frame}[fragile]{Example}{Queens puzzle}
   \includegraphics[height=0.7\textheight]{pictures/queens.png}
-  \end{frame}
-
+\end{frame}
 % ----------------------------------------------------------------------
 %
 %%% Local Variables:
