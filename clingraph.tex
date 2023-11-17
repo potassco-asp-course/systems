@@ -13,6 +13,30 @@
     \item \structure{Applications} \ debugging, explanation, visualization % Product Configuration, Warehouse logistics, etc
   \end{itemize}
 \end{frame}
+
+
+\begin{frame}[fragile]{Example}{Queens Puzzle}
+  \begin{adjustbox}{max totalsize={\textwidth}{.7\textheight},keepaspectratio}
+    \begin{lstlisting}[]
+node((X,Y)) :- cell(X,Y).
+
+attr(node,(X,Y),width,1) :- cell(X,Y).
+attr(node,(X,Y),pos,@pos(X,Y)) :- cell(X,Y).
+attr(node,(X,Y),shape,square) :- cell(X,Y).
+attr(node,(X,Y),style,filled) :- cell(X,Y).
+attr(node,(X,Y),fillcolor,gray) :- cell(X,Y),(X+Y)\2=0.
+attr(node,(X,Y),fillcolor,white) :- cell(X,Y),(X+Y)\2!=0.
+attr(node,(X,Y),fontsize,"50") :- queen(X,Y).
+attr(node,(X,Y),label,"$\symqueen$") :- queen(X,Y).
+  \end{lstlisting}
+  \end{adjustbox}
+
+\end{frame}
+  \begin{frame}[fragile]{Example}{Queens Puzzle}
+
+  \includegraphics[height=0.7\textheight]{pictures/queens.png}
+  \end{frame}
+
 % ----------------------------------------------------------------------
 %
 %%% Local Variables:
