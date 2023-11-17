@@ -18,6 +18,34 @@
       study regulations~\cite{hamaneotroscsc23a}
   \end{itemize}
 \end{frame}
+\begin{frame}[fragile]{Example}{Interactive Sudoku}
+  \begin{adjustbox}{max totalsize={\textwidth}{.5\textheight},keepaspectratio}
+    \begin{lstlisting}[]
+elem(window, window, root).
+attr(window, child_layout, grid).
+
+elem(d(X,Y), dropdown_menu, window) :- pos(X,Y).
+attr(d(X,Y), width, 50)  :- pos(X,Y).
+attr(d(X,Y), height, 50) :- pos(X,Y).
+attr(d(X,Y), grid_column, X) :- pos(X,Y).
+attr(d(X,Y), grid_row, Y) :- pos(X,Y).
+attr(d(X,Y), class, ("border-dark";"bg-primary")) :- pos(X,Y).
+attr(d(X,Y), class, "bg-opacity-50") :- subgrid(X,Y,S), S\2!=0.
+attr(d(X,Y), selected, V) :- _c(sudoku(X,Y, V)).
+
+elem(dv(X,Y, V), dropdown_menu_item, d(X,Y)) :- _b(sudoku(X,Y, V)).
+attr(dv(X,Y, V), label, V) :- _b(sudoku(X,Y, V)).
+when(dv(X,Y, V), click, call, add_assumption(sudoku(X,Y, V))) :- _b(sudoku(X,Y, V)).
+  \end{lstlisting}
+  \end{adjustbox}
+\end{frame}
+
+\begin{frame}[fragile]{Example}{Interactive Sudoku}
+
+  \includegraphics<1>[height=0.7\textheight]{pictures/clinguin1.png}
+  \includegraphics<2>[height=0.7\textheight]{pictures/clinguin2.png}
+  \includegraphics<3>[height=0.7\textheight]{pictures/clinguin3.png}
+  \end{frame}
 % ----------------------------------------------------------------------
 %
 %%% Local Variables:
