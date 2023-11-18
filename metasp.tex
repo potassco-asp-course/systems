@@ -13,6 +13,42 @@
   \end{itemize}
 \end{frame}
 % ----------------------------------------------------------------------
+\begin{frame}[fragile]{Grounding for meta programming}
+\begin{adjustbox}{max totalsize={\textwidth}{.83\textheight},keepaspectratio}
+\begin{lstlisting}
+$ gringo --output=reify enconding.lp instance.lp
+atom_tuple(0).
+atom_tuple(0,1).
+literal_tuple(0).
+rule(disjunction(0),normal(0)).
+atom_tuple(1).
+atom_tuple(1,2).
+rule(disjunction(1),normal(0)).
+atom_tuple(2).
+atom_tuple(2,3).
+rule(disjunction(2),normal(0)).
+atom_tuple(3).
+atom_tuple(3,4).
+rule(disjunction(3),normal(0)).
+atom_tuple(4).
+atom_tuple(4,5).
+rule(disjunction(4),normal(0)).
+atom_tuple(5).
+atom_tuple(5,6).
+rule(disjunction(5),normal(0)).
+atom_tuple(6).
+atom_tuple(6,7).
+rule(disjunction(6),normal(0)).
+atom_tuple(7).
+atom_tuple(7,8).
+rule(disjunction(7),normal(0)).
+atom_tuple(8).
+atom_tuple(8,9).
+...
+\end{lstlisting}
+\end{adjustbox}
+\end{frame}
+% ----------------------------------------------------------------------
 \begin{frame}[fragile,shrink=34]{Meta encoding, or ASP in ASP}
   \bigskip
   \lstinputlisting[language=clingo]{encodings/meta.lp}
