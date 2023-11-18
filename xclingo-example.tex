@@ -1,0 +1,35 @@
+% ----------------------------------------------------------------------
+\begin{frame}[fragile,shrink]{Example}{Blocks world}
+\begin{lstlisting}[language=clingo,commentstyle={\color{white}},basicstyle=\scriptsize\ttfamily]
+% !trace { occurs(move(B,From,To),T),                             \
+           "We moved block % from % to % at step %",B,From,To,T } \
+         :- occurs(move(B,From,To),T).
+
+% !trace { holds(on(B),L,T),                                      \
+           "Block % was % on %",B,Txt,L }                         \
+         :- holds(on(B),L,T), timetext(T,Txt).
+
+% !trace { holds(on(B),L,T),                                      \
+           "Block % was on % at %",B,L,T }                        \
+         :- holds(on(B),L,T), changed(on(B),T), T!=last, T!=0.
+
+% !show_trace { holds(F,V,last) }.
+\end{lstlisting}
+%\only<2>{\includegraphics[width=.4\textwidth]{blocksworld-example.png}}%
+\pause
+\begin{lstlisting}[language=clingo,basicstyle=\scriptsize\ttfamily]
+*
+|__"Block 14 was finally on 13"
+|  |__"Block 14 was on 13 at 22"
+|  |  |__"We moved block 14 from table to 13 at step 22"
+|  |  |  |__"Block 14 was on table at 12"
+|  |  |  |  |__"We moved block 14 from 11 to table at step 12"
+|  |  |  |  |  |__"Block 14 was initially on 11"
+\end{lstlisting}
+\end{frame}
+% ----------------------------------------------------------------------
+%
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../../main"
+%%% End:
