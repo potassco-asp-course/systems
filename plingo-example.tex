@@ -8,7 +8,8 @@
 bird(X) :- resident(X).
 bird(X) :- migratory(X).
 :- resident(X), migratory(X).
-resident(jo) :- &weight(2).
+
+resident(jo)  :- &weight(2).
 migratory(jo) :- &weight(1).
 
 &query(resident(jo)).
