@@ -1,0 +1,35 @@
+% ----------------------------------------------------------------------
+\begin{frame}[fragile]{Example}{Graph coloring}
+\begin{tikzpicture}[remember picture,overlay]
+  \node[anchor=north east,xshift=-1em,yshift=-2cm] at (current page.north east){%
+  \includegraphics[width=.4\textwidth]{australia-col}};
+\end{tikzpicture}
+\begin{adjustbox}{max totalsize={\textwidth}{.83\textheight},keepaspectratio}
+\begin{lstlisting}
+$ clingo encoding.lp instance.lp
+clingo version 5.6.4
+Reading from encoding.lp ...
+Solving...
+Answer: 1
+vertex(a) vertex(b) vertex(c) ...
+edge(a,b) edge(a,c) edge(b,c) ...
+color(red) color(green) color(blue)
+assign(a,blue)  assign(b,red)
+assign(c,green) assign(d,blue)
+assign(e,red)   assign(g,blue)
+assign(f,blue)  assign(h,red)
+SATISFIABLE
+
+Models   : 1+
+Calls    : 1
+Time     : 0.001s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time : 0.001s
+\end{lstlisting}%
+\end{adjustbox}
+\end{frame}
+% ----------------------------------------------------------------------
+%
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../../main"
+%%% End:
