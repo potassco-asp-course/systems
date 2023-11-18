@@ -19,7 +19,7 @@
   \end{itemize}
 \end{frame}
 % ----------------------------------------------------------------------
-
+%
 % draw the task scheduling instance and put it in a box (the poor thing)
 \newbox\instance%
 \sbox\instance{%
@@ -47,7 +47,8 @@ tasks   & unit~\(u_1\) & unit~\(u_2\) \\\midrule
 \(t_2\) & \tasks{73d216/1} & \tasks{4e9a06/6} \\
 \(t_3\) & \tasks{f57900/5} & \tasks{ce5c00/5} \\\bottomrule
 \end{tabular}}
-
+%
+% ----------------------------------------------------------------------
 \begin{frame}[fragile]{Example}{Task scheduling}
 \begin{adjustbox}{max totalsize={\textwidth}{.83\textheight},keepaspectratio}
 \begin{lstlisting}
@@ -74,7 +75,7 @@ task(3).   dur(3,1,5).  dur(3,2,5).
 \end{tikzpicture}
 \end{frame}
 % ----------------------------------------------------------------------
-
+%
 % draw a solution and put it in a box (the poor thing)
 \newbox\solution%
 \sbox{\solution}{%
@@ -110,11 +111,11 @@ unit    & \multicolumn{1}{c}{solution} \\\midrule
 \arrow{s21-1-1}{s22-2-1} \arrow{s21-2-5}{s22-3-1} \arrow{s21-3-3}{s22-4-1}
 \end{tikzpicture}\hfill
 }
-
+% ----------------------------------------------------------------------
 \begin{frame}[fragile]{Example}{Task scheduling}
 \begin{adjustbox}{max totalsize={\textwidth}{.83\textheight},keepaspectratio}
 \begin{lstlisting}
-clingo-dl version 1.4.0
+$ clingo-dl version 1.4.0
 Reading from example.lp
 Solving...
 Answer: 1
@@ -138,7 +139,6 @@ CPU Time    : 0.002s
 \end{tikzpicture}
 \end{frame}
 % ----------------------------------------------------------------------
-
 %
 %%% Local Variables:
 %%% mode: latex
