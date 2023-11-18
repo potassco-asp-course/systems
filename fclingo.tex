@@ -17,6 +17,43 @@
   \end{itemize}
 \end{frame}
 % ----------------------------------------------------------------------
+\begin{frame}[fragile]{Example}{Configuration}
+\begin{lstlisting}
+price(frame,15).
+price(bag,5).
+
+  select(frame).
+{ select( bag ) }.
+
+&sum{V} = price(P) :- select(P), price(P,V).
+&sum{price(P) : select(P)} = price(total).
+
+#show select/1.
+&show{price/1}.
+\end{lstlisting}
+\end{frame}
+% ----------------------------------------------------------------------
+\begin{frame}[fragile]{Example}{Configuration}
+\begin{adjustbox}{max totalsize={\textwidth}{.83\textheight},keepaspectratio}
+\begin{lstlisting}
+$ fclingo 0 configuration-optionality.lp
+fclingo version 0.1
+Reading from ...configuration-optionality.lp
+Solving...
+Answer: 1
+select(frame) val(price(total),15) val(price(frame),15)
+Answer: 2
+select(frame) select(bag) val(price(total),20) val(price(bag),5) val(price(frame),15)
+SATISFIABLE
+
+Models       : 2
+Calls        : 1
+Time         : 0.008s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.008s
+\end{lstlisting}
+\end{adjustbox}
+\end{frame}
+% ----------------------------------------------------------------------
 %
 %%% Local Variables:
 %%% mode: latex
