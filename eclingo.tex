@@ -24,14 +24,14 @@ time(1..n).
 action(load). 
 action(trigger).
 
-1 { holds(alive,1);  -holds(alive,1)  } 1.
+1 { holds(dry,1);    -holds(dry,1)    } 1.
 1 { holds(loaded,1); -holds(loaded,1) } 1.
 
  holds(loaded,T) :- occurs(load,T).
 -holds(loaded,T) :- occurs(trigger,T).
--holds(alive,T)  :- occurs(trigger,T), holds(loaded,T-1).
+-holds(dry,T)    :- occurs(trigger,T), holds(loaded,T-1).
 
-goal :- -holds(alive,n).
+goal :- -holds(dry,n).
 |\pause|
 % conformant planning
 
