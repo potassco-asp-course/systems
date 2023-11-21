@@ -22,10 +22,10 @@
 \begin{lstlisting}[literate={~}{{$\sim$}}1,escapeinside=||]
 time(1..n). action(load). action(trigger).
 
-1 { holds(   dry,0); -holds(   dry,0) } 1.
-1 { holds(loaded,0); -holds(loaded,0) } 1.
+{ holds(   dry,0); -holds(   dry,0) } = 1.
+{ holds(loaded,0); -holds(loaded,0) } = 1.
 
-1 { occurs(A,T) : action(A) } 1 :- time(T).
+{ occurs(A,T) : action(A) } = 1 :- time(T).
 
  holds(loaded,T) :- occurs(   load,T).
 -holds(loaded,T) :- occurs(trigger,T).
