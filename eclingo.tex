@@ -20,25 +20,26 @@
 \end{tikzpicture}
 \begin{adjustbox}{max totalsize={.75\textwidth}{.83\textheight},keepaspectratio}
 \begin{lstlisting}[literate={~}{{$\sim$}}1,escapeinside=||]
-time(1..n).
-action(load). 
-action(trigger).
+time(1..n). action(load). action(trigger).
 
-1 { holds(dry,1);    -holds(dry,1)    } 1.
-1 { holds(loaded,1); -holds(loaded,1) } 1.
+1 { holds(   dry,0); -holds(   dry,0) } 1.
+1 { holds(loaded,0); -holds(loaded,0) } 1.
 
- holds(loaded,T) :- occurs(load,T).
+1 { occurs(A,T) : action(A) } 1 :- time(T).
+
+ holds(loaded,T) :- occurs(   load,T).
 -holds(loaded,T) :- occurs(trigger,T).
--holds(dry,T)    :- occurs(trigger,T), holds(loaded,T-1).
+-holds(   dry,T) :- occurs(trigger,T), holds(loaded,T-1).
+
+ holds(F,T) :-  holds(F,T-1), not -holds(F,T), time(T).
+-holds(F,T) :- -holds(F,T-1), not  holds(F,T), time(T).
 
 goal :- -holds(dry,n).
 |\pause|
 % conformant planning
 
-occurs(A,T) :- action(A), time(T), not &k{ ~occurs(A,T) }.
-
- holds(F,T+1) :-  holds(F,T), not -holds(F,T+1), T<n.
--holds(F,T+1) :- -holds(F,T), not  holds(F,T+1), T<n.
+:- action(A), time(T), occurs(A,T), not &k{ occurs(A,T) }.
+:- action(A), time(T), not occurs(A,T), &k{ occurs(A,T) }.
 
 :- not &k { goal }.
 \end{lstlisting}
@@ -55,8 +56,8 @@ $ eclingo yale.lp -c n=2
 eclingo version 0.2.0
 Solving...
 Answer: 1
-&k{ ~occurs(trigger,1) } 
-&k{ ~occurs(load,2) } 
+&k{ occurs(load,1) } 
+&k{ occurs(trigger,2) } 
 &k{ goal }
 SATISFIABLE
 
