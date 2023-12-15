@@ -8,7 +8,7 @@
         % \texttt{elem/2}, style: \texttt{attr/3} and actions: \texttt{when/4}
       \item extensible set of backend operations for interaction
         % \texttt{add\_assumption}, \texttt{next\_solution}, \texttt{set\_external}, etc.
-      \item brave reasoning for menus (via predicate \ \lstinline{_b(X)} )
+      \item brave reasoning for menus (via predicate \ \lstinline{_any(X)} )
       % \item Available extensions for \clingraph, explanations, temporal reasoning.
       \end{itemize}
     \item \structure{Technology} \ \clingo, \clorm, \textit{angular}, \textit{bootstrap}
@@ -32,11 +32,11 @@ attr(d(X,Y), grid_column, X) :- pos(X,Y).
 attr(d(X,Y), grid_row, Y) :- pos(X,Y).
 attr(d(X,Y), class, ("border-dark";"bg-primary")) :- pos(X,Y).
 attr(d(X,Y), class, "bg-opacity-50") :- subgrid(X,Y,S), S\2!=0.
-attr(d(X,Y), selected, V) :- _c(sudoku(X,Y, V)).
+attr(d(X,Y), selected, V) :- _all(sudoku(X,Y, V)).
 
-elem(dv(X,Y, V), dropdown_menu_item, d(X,Y)) :- _b(sudoku(X,Y, V)).
-attr(dv(X,Y, V), label, V) :- _b(sudoku(X,Y, V)).
-when(dv(X,Y, V), click, call, add_assumption(sudoku(X,Y, V))) :- _b(sudoku(X,Y, V)).
+elem(dv(X,Y, V), dropdown_menu_item, d(X,Y)) :- _any(sudoku(X,Y, V)).
+attr(dv(X,Y, V), label, V) :- _any(sudoku(X,Y, V)).
+when(dv(X,Y, V), click, call, add_assumption(sudoku(X,Y, V))) :- _any(sudoku(X,Y, V)).
   \end{lstlisting}
   \end{adjustbox}
 \end{frame}
