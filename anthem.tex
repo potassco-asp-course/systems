@@ -4,13 +4,33 @@
   \item \structure{Idea} \ verify logic programs
   \item \structure{Features}
     \begin{itemize}
-      \item equivalence among logic programs and first-order theories
-      \item (strong) equivalence between logic programs
-      \item same external behavior
+      \item translate logic programs to first-order theories
+      \item verify properties of the original programs, such as strong and external equivalence
       \item different back-end theorem provers, eg \vampire
     \end{itemize}
   \item \structure{References} \ \cite{lilusc19a,falilusc20a}
   \end{itemize}
+\end{frame}
+% ----------------------------------------------------------------------
+\begin{frame}[fragile]{Example}{Make your choice}
+  \centering
+  \begin{lstlisting}[basicstyle=\small\ttfamily]
+  % choice.1.lp
+  {q(X)} :- p(X).
+  \end{lstlisting}
+  \vfill
+  \begin{lstlisting}[basicstyle=\small\ttfamily]
+  % choice.2.lp
+  q(X) :- p(X), not not q(X).
+  \end{lstlisting}
+  \vfill
+  \begin{lstlisting}[basicstyle=\small\ttfamily]
+  $ anthem verify \
+  $     --equivalence strong \
+  $     choice.1.lp choice.2.lp
+  <snip>
+  > Success! Anthem found a proof of equivalence.
+  \end{lstlisting}
 \end{frame}
 % ----------------------------------------------------------------------
 %
