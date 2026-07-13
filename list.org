@@ -10,7 +10,7 @@
 ** clingo-dl
 ** clingo-lp
 ** clingo-lpx
-** fclingo
+** flingo
 ** eclingo
 * tooling
 ** asprin

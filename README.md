@@ -20,7 +20,7 @@
 ### clingo-lp
 ### clingo-lpx
 ### eclingo
-### fclingo
+### flingo
 ### plingo
 ### telingo
 ### meta-melingo
@@ -70,4 +70,3 @@
 	- https://potassco.org/
 	- https://potassco.org/labs/
 	- https://potassco.org/cemetery/ (this might see some newbies)
-
